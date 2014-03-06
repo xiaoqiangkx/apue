@@ -18,9 +18,13 @@ Design Idea
 
 **Answer**: A special routine which is set up by c compiler is called before the main function is called. The start-up routine takes value from the kernel-the command-line arguments and the environment, call exit and call handlers.
 
-**2. How do the command-line argument are passed to the new program?**
+**2. How do the command-line argument and environment variables are passed to the new program?**
 
-**Answer**:??
+**Answer**: start-up routine pas command-line argument. Environment variables can be got by invoking `getenv`.
+
+> The Unix kernel never looks at environment variables; There interpretation is up to the various applications.
+
+**Add or change Environment Variables**: Environment List is a ```char**``` list of pointers. If we modifying an existing name, we have to compare the length of the old one and new one. If we insert an name, we have to consirderthe first time and the second time. Use `malloc` and `realloc` to do the job.
 
 **3. What does the typical memory layout looks like?**
 
@@ -52,7 +56,17 @@ $ size a.out
 
 **4. How does the system allocate additional memory?**
 
-**Answer**:
+**Answer**: 
+
+`malloc`: data are uninitialized.
+
+`alloc`: objects are initialized.
+
+`realloc`: may move and copy data if space behind is not enough. Data between old ending and new ending are uninitialized.
+
+`free`: data freed are returned to the malloc pool but return to kernel.
+
+**record keeping**: space besides malloc data may be record keeping or other data.
 
 **5. How many ways do the system terminate the program?**  
 
@@ -73,6 +87,10 @@ __Exit Handler__: use ```int atexit(void (*func)(void)); Return 0 if ok```, `exi
 **What will happen if no cleanup are done?**
 
 **6. How do the longjmp and setjmp functions interact with the stack?**
+
+**Answer**: we can not `goto` a label that is in another function. We should use `longjmp` and `setjmp` to perform this type of branching.
+
+**Application**: If we encounter a nonfatal error, we do not want to exit the program. one ```setjmp(jmp_buf env)```, more ```longjmp(jmp_buf env, int val)```. `volatile` variable do not rolled back. `global` or `static` variable are stable which is not in stack. `register` will be rolled back and `automatic` variable will not. Use heap data.
 
 **7. What's the limits of a process?**
 
