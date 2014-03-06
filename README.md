@@ -7,11 +7,13 @@ Contents
 ==========
 
 * [Chapter 7 Process Environment](#chapter_7_process_environment)
+    * [Question](#question)
+* [Chapter 8 Process Control](#chapter_8_process_control)
 
 Chapter 7 Process Environment
 ==============================
 
-Design Idea
+Question
 ------------
 
 **1. How does the main function is called?**
@@ -94,9 +96,29 @@ __Exit Handler__: use ```int atexit(void (*func)(void)); Return 0 if ok```, `exi
 
 **7. What's the limits of a process?**
 
-Shortcomming and Strength
--------------------------
+**Answer**: memory, core file, cpu time in seconds, data segment, file, the number of file locks, the number of open files, the number of child processes, rss, socket buffer, stack.
 
-Application
------------
+
+Chapter 8 Process Control
+==========================
+
+**1. How to describe a process properly?**
+
+**Answer**:  
+1. A unique ID: delay use, which prevent a new process from being mistaken for the previous process to have used the same name; The id can be used to create a unique name for a file; Process ID 0 is the kernel process-swapper, ID 1 is the __init__ process which is invoked by the kernel at the end of bootstrap procedure. The __init__ process which is a user process with superuser privileges never die.
+
+**2. What are the differences between parent and child process?**
+
+**Answer**: 
+1. text segement is shared. Because of copy-on-write(COW) is used, they share the data space, stack and heap which is read-only. If one of them try to modify them, the child process get a copy.
+2. file buffer is shared.
+
+**3. How to create and terminate a process?**
+
+**Answer**:  
+1. Fork:
+
+
+**4. What are the interpreter files and system function?**
+
 
