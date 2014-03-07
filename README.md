@@ -110,15 +110,36 @@ Chapter 8 Process Control
 **2. What are the differences between parent and child process?**
 
 **Answer**: 
-1. text segement is shared. Because of copy-on-write(COW) is used, they share the data space, stack and heap which is read-only. If one of them try to modify them, the child process get a copy.
-2. file buffer is shared.
+* text segement is shared. Because of copy-on-write(COW) is used, they share the data space, stack and heap which is read-only. If one of them try to modify them, the child process get a copy.
+* file buffer is shared as described in **src/apue8_3buffer.cpp**
+* file table is copyed. The same __file offset__ let them append to the file. However we need to synchronization the process preventing write intermixly. We can close those descripters, too. 
+* Real/Effective User/Group IDs, Process Group ID, CWD, File mask, Enviroment, resources limit. Shared memory segments.
+
+**Fail to fork**:The number of process exceeds the sytem limit.
+
+**When to use fork**: 1 Want to duplicate itself in order to process differentsection of code. 2 Execute a different program.(fork + exec == spawn)
 
 **3. How to create and terminate a process?**
 
 **Answer**:  
-1. Fork:
+1. Fork: call `fork` once, return twice.
+2. vfork: After we call `vfork`, the parent will not wake up until the child finish. They share the same space.
+3. exit/_Exit: whether they call handler and clean up stdio.
+4. terminate: closes all fds, release the memory. Process 1 `init` will be the parent of child who lost parent. The process is that, when a process terminate, the kernel will goes through all active processes to find their children and set thoses children parent to be 1. The kernel keep a small amout of information for every terminating process. `zombie` process is a terminated process whose parent forget to `wait` or `waitpid`. Because the parent of `zombie` will be closed. Init will close all its children which has a callback function to kill them.
+5. wait or waitpid: if process has no child process, -1 is returned. waitpid provide non-block way.
+
+**4. What is the race condition? How to cooperate between the parent and child process?**
+
+**Answer**:  
 
 
-**4. What are the interpreter files and system function?**
+**Tips**: setbuf(stdout, NULL) to set unbuffered.
 
 
+**5. What are the interpreter files and system function?**
+
+
+**6. How to start a process?**
+
+**Answer**:
+1. exec do not replace the fork id, but replace all spaces-text, data, heap and stack segment with a brand new program from the disk.
