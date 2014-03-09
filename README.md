@@ -206,3 +206,11 @@ Chapter 11 Threads
 **Answer**: Thread ID, a stack, register values, a scheduling priority and policy, signal mask and an errno variable while global and heap memory, stacks(??) and the file descriptors are shared.
 
 tips: use ```gcc file -E > tempfile``` to see result
+
+**3. When do lock happen? Wen do the deadlock happen?**
+
+**Answer**: When one thread modify a variable that other threads can read or modify it and thre modify operation can't be finished in one memory cycle which is not atomic. When there are many variables and they do not use variables in the same order, it lead to deadlock.
+
+**4. What is Reader-Writer lock and condition lock?**
+
+**Answer**: Reader-Writer lock can speed up read rates. condition lock can provide a place for threads to rendezvous.
