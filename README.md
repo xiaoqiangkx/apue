@@ -10,7 +10,8 @@ Contents
     * [Question](#question)
 * [Chapter 8 Process Control](#chapter_8_process_control)
 * [Chapter 9 Process Relationship](#chapter_9_process_relationship)
-* [(#chapter_10_signals)
+* [Chapter 10 Signals](#chapter_10_signals)
+* [Chapter 11 Threads](#chapter_11_threads)
 
 Chapter 7 Process Environment
 ==============================
@@ -187,3 +188,21 @@ Chapter 10 Signals
 **Answer**: Deals with asynchronous events. Denoted as an positive integer constant. number 0 is reserved. 
 
 1. Disposition of the signal: ignore the signal(SIGKILL and SIGSTOP can not be stopped), catch the signal and let the default action apply(always terminate the program).
+2. signal mask and disposition will be inheritanced.
+
+
+Chapter 11 Threads
+===================
+
+**1. What is the difference between thread and process?**
+
+**Answer**: 
+
+1. Thread shares file descriptor and memory by default, but processhas to use complex mechanisms to realize it.
+2. use pthread_t to indicate thread ID but integer. The thread ID is not unique in system but in process.
+
+**2. What does a thread consist of?**
+
+**Answer**: Thread ID, a stack, register values, a scheduling priority and policy, signal mask and an errno variable while global and heap memory, stacks(??) and the file descriptors are shared.
+
+tips: use ```gcc file -E > tempfile``` to see result
