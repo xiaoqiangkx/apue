@@ -143,3 +143,4 @@ Chapter 8 Process Control
 
 **Answer**:
 1. exec do not replace the fork id, but replace all spaces-text, data, heap and stack segment with a brand new program from the disk.
+2. ```exec[l/v]e``` use full path with user-defined or system-defined path to exec. ```exec[l/v]p``` use user-defined path to exec data. 
