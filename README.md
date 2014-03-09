@@ -9,6 +9,8 @@ Contents
 * [Chapter 7 Process Environment](#chapter_7_process_environment)
     * [Question](#question)
 * [Chapter 8 Process Control](#chapter_8_process_control)
+* [Chapter 9 Process Relationship](#chapter_9_process_relationship)
+* [(#chapter_10_signals)
 
 Chapter 7 Process Environment
 ==============================
@@ -138,9 +140,50 @@ Chapter 8 Process Control
 
 **5. What are the interpreter files and system function?**
 
+**Answer**: 
+
+1. when we input `ls -l`, the shell execute ```execlp("ls", "-l", (char*)NULL)```. The interpreter file let us choose other basical program other than `bin/sh`.
+2. system let you just type the command other than use `execlp` function. It equals to `fork`, `exec("/bin/sh", "sh", "-c", cmdstring, ...)` and `waitpid`. It has a security hole. super-privilege program should never use `system` but use `fork` and `exec` to change permission in `fork`.
+
 
 **6. How to start a process?**
 
 **Answer**:
 1. exec do not replace the fork id, but replace all spaces-text, data, heap and stack segment with a brand new program from the disk.
 2. ```exec[l/v]e``` use full path with user-defined or system-defined path to exec. ```exec[l/v]p``` use user-defined path to exec data. 
+
+**7. How to control privilege?**
+
+**Answer:** Unix use __least_privilege__ model. Our program should use the least privilege necessary to accomplish any given task.
+
+1. `setuid` and `setgid`, only root user can change real user id and set-user-ID. General user can change effective user id only when their real user ID or save-user-ID equals new id. The saved set-user-ID is copied from the effective user ID by exec. 
+
+
+Chapter 9 Process Relationship
+==============================
+
+**1. How do terminal login?**
+
+**Answer**: `init` fork `init` for every terminal, `init` exec `gettty` and `login`, `login` set up all the ids and PATH, later login reads start-up files, such as ".profile".
+
+
+**2. What is Process Group and Session?**
+
+**Answer**: 
+
+1. Processes in a process group receive signals from the same terminal. The ID of Process Group Leader is the Process Group ID. Process can only set itself of its children before exec.
+2. Session: A collection of one or more Process Group. No Session ID but Session Leader
+3. Job Controller:
+
+Chapter 10 Signals
+===================
+
+
+>  It is often important to understand what is wrong with an implementation before seeing how to do things correctly.
+
+
+**What is Signals?**
+
+**Answer**: Deals with asynchronous events. Denoted as an positive integer constant. number 0 is reserved. 
+
+1. Disposition of the signal: ignore the signal(SIGKILL and SIGSTOP can not be stopped), catch the signal and let the default action apply(always terminate the program).
