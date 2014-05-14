@@ -1,7 +1,7 @@
 Advanced Programming in the Unix Environment Notes
 ==================================================
 
-Learn Process, Thread, File System and IPC.
+结合鸟哥的书, 理解常用的命令的实现逻辑.
 
 Contents
 ==========
@@ -12,6 +12,27 @@ Contents
 * [Chapter 9 Process Relationship](#chapter_9_process_relationship)
 * [Chapter 10 Signals](#chapter_10_signals)
 * [Chapter 11 Threads](#chapter_11_threads)
+
+
+
+
+本书介绍
+===============
+
+随着几十年的发展, Unix在非桌面应用领域, 特别是Android移动终端, 家用电器, 服务器等领域取得了飞速发展. 与此同时, AT&T鼓励在系统的接口和语言的基础上进行标准化的工作. 其发布的SVID成为了POSIX标准的基础. Linux和开源软件的崛起也对Unix生态圈改变颇大. 现在的四大主要系统是UNIX系统V版本后裔Sun的Solaris, 加州伯克利分校的FreeBSD, Linux以及Apple公司结合Mach和FreeBSD研发的Max 0S. 本书主要介绍这四个系统.
+
+本书描述了系统调用接口和标准C库. 并且以贴近现实应用的形式说明了一些标准.
+
+内容主要包括I/O, 进程(线程), IPC以及高级I/O.
+
+**学习目的**   
+希望通过这本书, 熟悉系统提供的资源以及系统的限制, 同时了解一些系统应用利用这些资源的方法和问题.
+
+
+Chapter 1 Unix System Overview
+================================
+
+// TODO 顺便看看鸟哥这本书
 
 Chapter 7 Process Environment
 ==============================
