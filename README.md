@@ -32,7 +32,11 @@ Contents
 Chapter 1 Unix System Overview
 ================================
 
-// TODO 顺便看看鸟哥这本书
+**登陆操作系统过程**: 输入账号和密码后, 系统查看`/etc/passwd`和`/etc/shadow`文件, 看看账号和密码是否正确; 如果正确那么查看`/etc/passwd`文件, 运行相应的shell程序,shell成为了我们和计算机之间的交互工具.
+
+**配置文件解析**: 其中提及众多配置文件以及信息文件, 如`/etc/passwd`, 此文件使用**:**作为分隔符, 我们一般是如何获得第n个参数的呢? 一般是查找n-1和n个**:**之间的字符串, 使用两次`find`或者`strchr`, `strrchr`.
+
+**问题1:**为什么文件系统需要把`.`目录, 只是为了方便查看pwd? `..`是为了指向parent实现回溯.
 
 Chapter 7 Process Environment
 ==============================
@@ -235,3 +239,14 @@ tips: use ```gcc file -E > tempfile``` to see result
 **4. What is Reader-Writer lock and condition lock?**
 
 **Answer**: Reader-Writer lock can speed up read rates. condition lock can provide a place for threads to rendezvous.
+
+
+关于头文件命名的一些问题
+==========================
+
+1. fork为什么在unistd.h里面?
+
+参考资料
+===========
+
+* [Linux多线程调试](http://coolshell.cn/articles/3643.html)
