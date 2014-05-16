@@ -1,0 +1,2 @@
+每个线程有自己独立的errno, 所以log_doit不受其它线程或者进程的影响.
+由于log_doit内部vsnprintf和snprintf会改变errno状态. 所以执行snprintf之前要把它保存起来.
