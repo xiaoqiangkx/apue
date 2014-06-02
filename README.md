@@ -86,12 +86,21 @@ XSI首先定义了implementation limits, 如`NL\_ARGMAX`.
 
 **细节2**: 在处理`getcwd`等需要传入path字节数组的函数时, 可能抛出ERANGE,数组长度国小的异常. 需要处理异常.
 
+**细节3**: 系统define一个变量可能是0,表示需要使用sysconf等变量, 或者-1表示不支持, 或者大于0表示可以直接获得变量.
 
 代码如下
+
+见`chapter2/alloc\_path.c`
+
 
 
 **实例2:获得进程能够打开的文件描述符数目**
 
+由于`OPEN\_MAX`和`\_SC\_OPEN\_MAX`无法保证获得, 所以需要使用猜.
+
+**注**: 不能依赖于`close()`方法的返回值,由于返回-1不一定是无效的fd,也有可能是未打开的fd.
+
+**注**: 有些系统返回LONG\_MAX大小的`OPEN\_MAX`, 此时最好使用ulimit命令或者兼容XSI的getrlimit和setrlimit来改变上限.
 
 
 Chapter 7 Process Environment
