@@ -6,6 +6,8 @@ Advanced Programming in the Unix Environment Notes
 Contents
 ==========
 
+* [Chapter 1 Unix System Overview](#chapter_1_unix_system_overview)
+* [Chpater 2 Unix Standardization and Implementations](#Chpater_2_Unix_Standardization_and_Implementations)
 * [Chapter 7 Process Environment](#chapter_7_process_environment)
     * [Question](#question)
 * [Chapter 8 Process Control](#chapter_8_process_control)
@@ -37,6 +39,60 @@ Chapter 1 Unix System Overview
 **配置文件解析**: 其中提及众多配置文件以及信息文件, 如`/etc/passwd`, 此文件使用**:**作为分隔符, 我们一般是如何获得第n个参数的呢? 一般是查找n-1和n个**:**之间的字符串, 使用两次`find`或者`strchr`, `strrchr`.
 
 **问题1:**为什么文件系统需要把`.`目录, 只是为了方便查看pwd? `..`是为了指向parent实现回溯.
+
+
+Chpater 2 Unix Standardization and Implementations
+===================================================
+
+**使用各系统的最小值从而换取兼容性**:系统的参数往往都有范围限制, 为了程序的兼容性, 程序假设的参数是取最小值. 如果某些程序限定在某个系统中运行,那么可以获取本系统允许的最大值.
+
+
+如何获取标准定义的范围值以及本系统的最大值成为了我们探讨的范围? 
+---------------------------------------------------------------
+ 
+主要的标准是ISO C, POSIX和XSI
+
+limits分为两大类:
+ * compile-time limits(headers)
+    * 变量字节数
+ * Runtime limits:由于不同的文件系统或者系统运行状况下限制发生变化
+    * file/directory无关,使用`sysconf`接口
+    * file/directory有关,使用`pathconf`和`fpathconf`接口
+
+ISO C中定义的所有limits都是compile-time限制.
+
+**注**:由于int在16位和32位大小的机器上范围差异较大.涉及较大的数时,建议使用long或者一些posix变量.
+
+POSIX标注定义了19个invariable变量,这是声称支持POSIX.1的系统必须兼容的.
+
+**答**:`\_POSIX\_`开头的变量名,如`\_POSIX\_OPEN\_MAX`是标准定义的单进程最大fd数目,而去掉`\_POSIX\_`的变量名`OPEN\_MAX`是当前系统真实的支持大小.但是由于不是所有的系统都在limits中实现了这些变量. 所以POSIX.1定义了`sysconf`,`pathconf`和`fpathconf`接口来获得变量的真实值. 通常以`\_SC\_`和`\_PC\_`开头.
+
+XSI首先定义了implementation limits, 如`NL\_ARGMAX`.
+
+如何获得compile-limit和runtime-limit
+---------------------------------------
+
+使用`ifdef`宏和`sysconf`,`pathconf`,`fpathconf`方法.
+
+
+如何处理indeterminate Runtime limits
+--------------------------------------
+
+**实例1:为pathname分配空间**
+
+由于`\_POSIX\_PATH\_MAX`是standard limit, 其值太小没有利用价值. 必须获得implementation limit, 在`\<limits.h\>`中定义的`PATH\_MAX`或者`pathconf`中定义的limit具有使用价值, 但是当其值为indeterminate时,就只能guess了.
+
+**细节1**: `pathconf`获得是相对路径最大长度, 计算绝对路径时需要加上当前的工作路径长度. 早期的系统获得的路径长度没有考虑null byte, 所以需要加1.
+
+**细节2**: 在处理`getcwd`等需要传入path字节数组的函数时, 可能抛出ERANGE,数组长度国小的异常. 需要处理异常.
+
+
+代码如下
+
+
+**实例2:获得进程能够打开的文件描述符数目**
+
+
 
 Chapter 7 Process Environment
 ==============================
