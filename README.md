@@ -8,6 +8,7 @@ Contents
 
 * [Chapter 1 Unix System Overview](#chapter_1_unix_system_overview)
 * [Chpater 2 Unix Standardization and Implementations](#Chpater_2_Unix_Standardization_and_Implementations)
+* [Chapter 3 File I0](#chapter_3_file_io)
 * [Chapter 7 Process Environment](#chapter_7_process_environment)
     * [Question](#question)
 * [Chapter 8 Process Control](#chapter_8_process_control)
@@ -108,6 +109,19 @@ Primitive System Data Type
 -------------------------------
 
 System Data Type的字节数是固定的, 不同的系统使用不同的C内置类型来实现. 如size\_t变量, 有些系统使用int, 有些使用long来实现, 从而实现源码跨平台.
+
+
+
+Chapter 3 File I0
+=====================
+
+**限制**: 每个process可以打开的files是有限的, 一般由OPEN\_MAX或其它implementation limit限定.
+
+
+名词解释
+------------
+
+ * unbuffered: 每次调用read和write都会引发系统调用.
 
 
 Chapter 7 Process Environment
