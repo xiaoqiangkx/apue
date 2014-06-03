@@ -103,6 +103,13 @@ XSI首先定义了implementation limits, 如`NL\_ARGMAX`.
 **注**: 有些系统返回LONG\_MAX大小的`OPEN\_MAX`, 此时最好使用ulimit命令或者兼容XSI的getrlimit和setrlimit来改变上限.
 
 
+
+Primitive System Data Type
+-------------------------------
+
+System Data Type的字节数是固定的, 不同的系统使用不同的C内置类型来实现. 如size\_t变量, 有些系统使用int, 有些使用long来实现, 从而实现源码跨平台.
+
+
 Chapter 7 Process Environment
 ==============================
 

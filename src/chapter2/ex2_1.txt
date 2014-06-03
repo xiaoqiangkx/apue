@@ -1,0 +1,1 @@
+使用一个宏和typedef配套使用, typedef前先判断#ifndef _SIZE_T_DECLARE即可.
